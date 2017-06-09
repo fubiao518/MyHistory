@@ -2,6 +2,7 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+System.out.print(basePath);
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -39,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<form method="post">
 							<div class="lg-username input-item clearfix">
 								<i class="iconfont">&#xe60d;</i>
-								<input type="text" name="username" id="username" placeholder="系统账号">
+								<input type="text" name="username" id="username" placeholder="系统账号" maxlength="16">
 							</div>
 							<div class="lg-password input-item clearfix">
 								<i class="iconfont">&#xe634;</i>
@@ -50,7 +51,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<i class="iconfont">&#xe633;</i>
 									<input type="text" name="captcha" id="captcha" placeholder="验证码">
 								</div>
-								<span class="check-code"><img id="captchaimg" src="kaptcha.do"></span>
+								<span class="check-code"><img id="captchaimg" src="kaptcha.do" title="点击刷新" style="width: 114;height: 42;" alt="验证码"></span>
 							</div>
 							<div class="tips clearfix">
 								<label><input type="checkbox" id="rem" name="remUser" checked="checked">记住用户名</label>
@@ -105,10 +106,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		
 		//验证码验证
+		$.get("validation.do",{"captcha":captcha},function(result){
+			if(result.success){
+				//验证码通过之后进行登录
+				$.post("login.do",{"username":username,"password":password,"rem":remUser},function(result){
+					if(result.success){
+						location.href="manage/index.jsp";
+					}else{
+						$("#info").text(result.msg);
+					}
+				},"json");
+			}else{
+				$("#error").show()
+				$("#info").text(result.msg);
+				change();
+			}
+		},"json");
 		
-		//验证码通过之后进行登录
   	}
-  
+  	
+	var change = function(){
+		$("#captchaimg").attr("src","kaptcha.do?date="+ new Date());
+	}
+
   	$(function(){
   		var username = document.cookie.split("=")[1]
   		//放入cookie值
@@ -116,7 +136,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		$("#error").hide()
   		$("#captchaimg").on("click",function(){
   			var num = Math.random()
-  			this.src="CaptchaServlet?num="+Math.random()
+  			this.src="kaptcha.do?num="+Math.random()
   		})  		
   		$(".supplier").on("click",function(){
   			login();

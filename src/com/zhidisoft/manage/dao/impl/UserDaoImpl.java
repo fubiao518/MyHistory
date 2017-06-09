@@ -1,15 +1,39 @@
 package com.zhidisoft.manage.dao.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.zhidisoft.manage.dao.BaseDao;
 import com.zhidisoft.manage.entity.User;
+import com.zhidisoft.util.BeanUtil;
+import com.zhidisoft.util.DBUtil;
 
 public class UserDaoImpl implements BaseDao<User>{
 
+	private DBUtil db = new DBUtil();
+	
+	
+	/**
+	 * 用户登录的方法
+	 */
+	public User queryByName(String username){
+		String sql = "select * from tb_user where username=?";
+		User user = null;
+		Object[] parm = {username};
+		List<Map<String, String>> users = db.query(sql,parm);
+		Map<String, String> map = new HashMap<String,String>();
+		if (users != null && users.size() == 1) {
+			map = users.get(0);
+			user = new User();
+			BeanUtil.mapToBean(user, map);
+		}
+		return user;
+	}
 	@Override
 	public List<User> getAll() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -36,5 +60,5 @@ public class UserDaoImpl implements BaseDao<User>{
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
 }

@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//WebContent/manage/index.jsp=UTF-8
 encoding//src/com/zhidisoft/base/BaseServlet.java=UTF-8
 encoding//src/com/zhidisoft/constants/PermissionType.java=UTF-8
 encoding//src/com/zhidisoft/constants/UserState.java=UTF-8

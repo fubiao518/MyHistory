@@ -1,7 +1,12 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 <!DOCTYPE html> 
 <html lang="en"> 
 <head>
-    <base href="/TaxSource/">
+    <base href="<%=basePath%>">
     <meta charset="utf-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
     <title>河南省金税三期税源信息管理系统</title>
