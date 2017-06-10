@@ -171,8 +171,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 $.messager.confirm("警告","确定退出税源信息管理系统？",function(data){
                     if(data){
                         //发送退出系统请求
+                        $.post("logout.do",function(result){
+                        	if(result.success){
+                        		
                         //退出成功重定向到登录页面
-                        window.location.href="login.html"
+                        window.location.href="login.jsp";
+                        	}
+                        },"json")
                     }
                 });
             });

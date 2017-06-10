@@ -113,6 +113,7 @@ System.out.print(basePath);
 					if(result.success){
 						location.href="manage/index.jsp";
 					}else{
+						$("#error").show()
 						$("#info").text(result.msg);
 					}
 				},"json");
