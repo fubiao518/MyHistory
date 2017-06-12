@@ -10,13 +10,13 @@ public class Taxer {
 	private String mobile;
 	private String address;
 	private String sex;
-	private Date birthday;
+	private String birthday;
 	private String email;
 	private int organId;
 	private int state;
 	private int mgr;
 	private int admin;
-	private Date recordDate;
+	private String recordDate;
 	private int recordUserId;
 
 	public int getId() {
@@ -67,11 +67,11 @@ public class Taxer {
 		this.sex = sex;
 	}
 
-	public Date getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(Date birthday) {
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 
@@ -115,11 +115,11 @@ public class Taxer {
 		this.admin = admin;
 	}
 
-	public Date getRecordDate() {
+	public String getRecordDate() {
 		return recordDate;
 	}
 
-	public void setRecordDate(Date recordDate) {
+	public void setRecordDate(String recordDate) {
 		this.recordDate = recordDate;
 	}
 

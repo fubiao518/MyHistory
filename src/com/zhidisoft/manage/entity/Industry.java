@@ -6,7 +6,7 @@ public class Industry {
 
 	private int id;
 	private String industryName;
-	private Date recordDate;
+	private String recordDate;
 	private int recordUserId;
 
 	public int getId() {
@@ -25,11 +25,11 @@ public class Industry {
 		this.industryName = industryName;
 	}
 
-	public Date getRecordDate() {
+	public String getRecordDate() {
 		return recordDate;
 	}
 
-	public void setRecordDate(Date recordDate) {
+	public void setRecordDate(String recordDate) {
 		this.recordDate = recordDate;
 	}
 

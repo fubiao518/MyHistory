@@ -44,14 +44,14 @@ System.out.print(basePath);
 							</div>
 							<div class="lg-password input-item clearfix">
 								<i class="iconfont">&#xe634;</i>
-								<input type="password" name="password" id="password" placeholder="系统密码">
+								<input type="password" name="password" id="password" placeholder="系统密码" maxlength="20">
 							</div>
 							<div class="lg-check clearfix">
 								<div class="input-item">
 									<i class="iconfont">&#xe633;</i>
 									<input type="text" name="captcha" id="captcha" placeholder="验证码">
 								</div>
-								<span class="check-code"><img id="captchaimg" src="kaptcha.do" title="点击刷新" style="width: 114;height: 42;" alt="验证码"></span>
+								<span class="check-code"><img id="captchaimg" src="kaptcha.do" title="点击刷新" style="width: 114;height: 42;cursor: pointer;" alt="验证码"></span>
 							</div>
 							<div class="tips clearfix">
 								<label><input type="checkbox" id="rem" name="remUser" checked="checked">记住用户名</label>

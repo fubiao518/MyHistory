@@ -23,11 +23,11 @@ import com.zhidisoft.util.EncryptUtil;
 import net.sf.json.JSONObject;
 
 @WebServlet("/login.do")
-public class LoginServlet extends HttpServlet{
+public class LoginServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		
+
 	}
 
 	@Override
@@ -40,21 +40,21 @@ public class LoginServlet extends HttpServlet{
 		String rem = req.getParameter("rem");
 		UserDaoImpl dao = new UserDaoImpl();
 		ResponseResult result = new ResponseResult(false, "用户名或密码错误");
-		 User user = dao.queryByName(username);
-		if (user!=null) {
-			String encryptPassword= user.getPassword();
+		User user = dao.queryByName(username);
+		if (user != null) {
+			String encryptPassword = user.getPassword();
 			String s = EncryptUtil.encryptMD5(password);
-			
+
 			if (encryptPassword.equals(s)) {
-				//记住密码，将密码设置到cookie中
+				// 记住密码，将密码设置到cookie中
 				if ("on".equals(rem)) {
-					Cookie cook=new Cookie("username", username);
-					cook.setMaxAge(60*60*24*10);
+					Cookie cook = new Cookie("username", username);
+					cook.setMaxAge(60 * 60 * 24 * 10);
 					res.addCookie(cook);
 				}
 				HttpSession session = req.getSession();
 				session.setAttribute("user", user);
-				
+
 				result.setSuccess(true);
 				result.setMsg("登录成功！");
 			}
@@ -66,5 +66,4 @@ public class LoginServlet extends HttpServlet{
 		out.close();
 	}
 
-	
 }

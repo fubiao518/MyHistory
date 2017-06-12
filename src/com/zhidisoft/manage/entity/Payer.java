@@ -25,7 +25,7 @@ public class Payer {
 	private String taxerMobile; // 18 办税人员手机号码
 	private String taxerIdCardImageURL; // 19 办税人员身份证扫描图片
 	private String bizAddressPhone; // 20 生产经营地电话
-	private Date recordDate; // 21 录入日期
+	private String recordDate; // 21 录入日期
 	private Integer userId; // 录入人员id
 
 	public Integer getId() {
@@ -196,11 +196,11 @@ public class Payer {
 		this.bizAddressPhone = bizAddressPhone;
 	}
 
-	public Date getRecordDate() {
+	public String getRecordDate() {
 		return recordDate;
 	}
 
-	public void setRecordDate(Date recordDate) {
+	public void setRecordDate(String recordDate) {
 		this.recordDate = recordDate;
 	}
 

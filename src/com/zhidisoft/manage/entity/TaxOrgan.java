@@ -14,7 +14,7 @@ public class TaxOrgan {
 	private int leaderId;
 	private String taxTypeCode;
 	private int state;
-	private Date recordDate;
+	private String recordDate;
 	private int recordUserId;
 
 	public int getId() {
@@ -97,11 +97,11 @@ public class TaxOrgan {
 		this.state = state;
 	}
 
-	public Date getRecordDate() {
+	public String getRecordDate() {
 		return recordDate;
 	}
 
-	public void setRecordDate(Date recordDate) {
+	public void setRecordDate(String recordDate) {
 		this.recordDate = recordDate;
 	}
 

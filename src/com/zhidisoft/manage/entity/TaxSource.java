@@ -10,12 +10,12 @@ public class TaxSource {
 	private int taxOrganId;
 	private int approverId;
 	private int executeId;
-	private Date executeTime;
+	private String executeTime;
 	private String taskFrom;
 	private String taskState;
 	private String idea;
 	private int riskLevel;
-	private Date recordDate;
+	private String recordDate;
 	private int recordUserId;
 
 	public int getId() {
@@ -66,11 +66,11 @@ public class TaxSource {
 		this.executeId = executeId;
 	}
 
-	public Date getExecuteTime() {
+	public String getExecuteTime() {
 		return executeTime;
 	}
 
-	public void setExecuteTime(Date executeTime) {
+	public void setExecuteTime(String executeTime) {
 		this.executeTime = executeTime;
 	}
 
@@ -106,11 +106,11 @@ public class TaxSource {
 		this.riskLevel = riskLevel;
 	}
 
-	public Date getRecordDate() {
+	public String getRecordDate() {
 		return recordDate;
 	}
 
-	public void setRecordDate(Date recordDate) {
+	public void setRecordDate(String recordDate) {
 		this.recordDate = recordDate;
 	}
 
