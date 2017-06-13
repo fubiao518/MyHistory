@@ -74,6 +74,7 @@
 <script type="text/javascript" src="static/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="static/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="static/js/calendar.js"></script>
+<script type="text/javascript" src="static/easyui/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript">
 	$(function(){
 		$("#error1").hide();
@@ -85,24 +86,22 @@
   		$("#reset").bind("click",function(){
   			$("input").val("");
   		})
-  		$("input").bind("blur",function(){
-  			changePassword();
-  		})
+
 	})
 	var changePassword = function(){
 		var oldPassword = $("#oldPassword").val();
 		var newPassword = $("#newPassword").val();
 		var validatePassword = $("#validatePassword").val();
-		if(!oldPassword || oldPassword.lenght < 6){
+		if(!oldPassword || oldPassword.length < 6){
 			$("#error1").show();
 			$("#info1").text("密码最少为6位").css("color","red");
 			return;
 		}else{
 			$("#error1").hide();
 		}
-		if(!newPassword || newPassword.lenght < 6){
+		if(!newPassword || newPassword.length < 6){
 			$("#error2").show();
-			$("#info2").text("密码最少为6位").css("color","red");
+			$("#info2").text("新密码最少为6位").css("color","red");
 			return;
 		}else{
 			$("#error2").hide();
@@ -114,13 +113,22 @@
 		}else{
 			$("#error3").hide();
 		}
+		$.messager.confirm('信息','确定修改？',function(r){
+		    if (r){
+		    	//发送修改密码的post请求
+				$.post("modifypassword.do",{"oldPassword":oldPassword,"newPassword":newPassword,"validatePassword":validatePassword},function(result){
+					if(result.success){
+						$("input").val("");
+						$("#error1").hide();
+		    			parent.$("#win").window("close");
+					} else {
+						$("#error1").show();
+						$("#info1").text("原密码错误").css("color","red");
+					}
+				},"json");
+		    }
+		});
 		
-		//发送修改密码的post请求
-		$.post("",{"oldPassword":oldPassword,"newPassword":newPassword,"validatePassword":validatePassword},function(result){
-			if(){
-				
-			}
-		},"json");
-	}
+		}
 </script>
 </html>

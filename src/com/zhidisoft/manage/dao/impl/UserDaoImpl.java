@@ -56,9 +56,11 @@ public class UserDaoImpl implements BaseDao<User>{
 	}
 
 	@Override
-	public boolean update(User t) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean update(User user) {
+		String sql = "UPDATE tb_user SET PASSWORD=? WHERE username = ?";
+		Object[] args = {user.getPassword(),user.getUsername()};
+		boolean state = db.update(sql, args);
+		return state;
 	}
 	
 }
