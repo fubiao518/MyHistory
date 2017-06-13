@@ -48,7 +48,7 @@
 			{field:'organName',title:'所属税务机关',width:100},
 			{field:'operation',title:'操作',width:100,
 				formatter: function(value,row,index){
-					return"<a href='javascript:void(0);' onclick=''>修改</a>|<a href='javascript:void(0);' onclick='deleteTaxer("+row.id+")'>删除</a>";
+					return"<a href='javascript:void(0);' onclick='edit("+row.id+")'>修改</a>|<a href='javascript:void(0);' onclick='deleteTaxer("+row.id+")'>删除</a>";
 				}
 			}
 	    ]]
@@ -76,7 +76,14 @@
 	}	
 	//修改添加事件
 	var edit = function(id) {
-		
+	    
+	        openTopWindow({
+	            width : 750,
+	            height : 600,
+	            title : "修改办税专员",
+	            url : "manage/taxer/editTaxer.jsp"
+	        });
+
 	}
 /**
  *打开在父窗口中打开window
