@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>修改办税专员</title>
 <base href="<%=basePath%>">
     <link rel="stylesheet" type="text/css" href="static/css/base.css" >
     <link rel="stylesheet" type="text/css" href="static/easyui/uimaker/easyui.css">
@@ -29,7 +29,7 @@
                     <tbody>
                     <tr>
                         <td class="kv-label">纳税人识别号</td>
-                        <td class="kv-content"><input type="text" name="payerCode" placeholder="纳税人识别号"></td>
+                        <td class="kv-content"><input type="text" name="payerCode" placeholder="纳税人识别号" class="easyui-validatebox" data-options="required:true"></td>
                         <td class="kv-label">纳税人名称</td>
                         <td class="kv-content"><input type="text" name="payerName" placeholder="纳税人名称"></td>
                     </tr>

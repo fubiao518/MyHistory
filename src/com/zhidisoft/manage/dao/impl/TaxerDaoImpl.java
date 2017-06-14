@@ -20,10 +20,17 @@ public class TaxerDaoImpl implements BaseDao<Taxer> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	/**
+	 * 添加操作
+	 */
 	@Override
 	public boolean add(Taxer t) {
-		// TODO Auto-generated method stub
+		String sql = "INSERT INTO tb_taxer (taxerCode,taxerName,mobile,address,sex,birthday,email,organId,state,mgr,admin,recordDate,recordUserId) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		Object[] args = {t.getTaxerCode(),t.getTaxerName(),t.getMobile(),t.getAddress(),t.getSex(),t.getBirthday(),t.getEmail(),t.getOrganId(),t.getState(),t.getMgr(),t.getAdmin(),t.getRecordDate(),t.getRecordUserId()};
+		int count = DBUtil.insert(sql, args);
+		if (count > 0) {
+			return true;
+		}
 		return false;
 	}
 

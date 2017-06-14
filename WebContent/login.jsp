@@ -96,6 +96,13 @@ System.out.print(basePath);
 		}else{
 			$("#info").text("")
 		}
+		if(!password||password.length<6){
+			$("#error").show()
+			$("#info").text("密码最少为6位").css("color","red");
+			return;
+		}else{
+			$("#info").text("")
+		}
 
 		if(!captcha||captcha.length!=4){
 			$("#error").show()

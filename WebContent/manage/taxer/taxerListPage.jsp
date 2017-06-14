@@ -27,7 +27,7 @@
         纳税专员姓名: <input class="easyui-textbox" type="text" id="taxerName" name="taxerName" style="width:166px;height:35px;line-height:35px;"/>
         <a href="javascript:void(0);" id="searchBtn" class="easyui-linkbutton" iconCls="icon-search" data-options="selected:true">查询</a>
         <a href="javascript:void(0);" id="setBtn" class="easyui-linkbutton" iconCls="icon-reload">重置</a>
-        <a href="javascript:void(0);" id="addBtn" class="easyui-linkbutton" iconCls="icon-add">添加纳税人</a>
+        <a href="javascript:void(0);" id="addBtn" class="easyui-linkbutton" iconCls="icon-add">添加办税专员</a>
 </div>
 
 <script type="text/javascript">
@@ -64,17 +64,19 @@
 	//重置按钮添加事件
 	$("#setBtn").bind("click",function(){
 		$("#taxerName").textbox("setValue","")
+		$('#dg').datagrid('load',{
+		});
 	})
 	
 	//为删除添加事件
 	var deleteTaxer = function (id) {
 		$.messager.confirm('信息','确定删除？',function(r){
 			if(r){
-				
+				//发送请求
 			}
 		})
 	}	
-	//修改添加事件
+	//为修改添加事件
 	var edit = function(id) {
 	    
 	        openTopWindow({
@@ -85,6 +87,16 @@
 	        });
 
 	}
+	
+	//为添加按钮添加事件
+	$("#addBtn").bind("click",function(){
+		 openTopWindow({
+	            width : 750,
+	            height : 600,
+	            title : "添加办税专员",
+	            url : "manage/taxer/addTaxer.jsp"
+	      });
+	})
 /**
  *打开在父窗口中打开window
  */
