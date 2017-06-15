@@ -16,7 +16,7 @@ import com.zhidisoft.manage.dao.impl.TaxerDaoImpl;
 
 import net.sf.json.JSONObject;
 @WebServlet("/taxerList.do")
-public class TaxerListServlet extends HttpServlet{
+public class PageListTaxerServlet extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {

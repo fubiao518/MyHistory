@@ -34,14 +34,14 @@ public class AddTaxerServlet extends HttpServlet{
 		//将map集合转化为实体类
 		 BeanUtil.mapToBean(taxer, parameterMap);
 		 ResponseResult result = new ResponseResult(false, "添加失败");
-		 //调用操作的实现类的添加的方法
-		 boolean state = dao.add(taxer);
-		 if (state) {
+		 //调用操作实现类的添加的方法
+		 if (dao.add(taxer)) {
 			result.setSuccess(true);
 			result.setMsg("添加成功");
 		}
 		 PrintWriter writer = resp.getWriter();
 		 JSONObject json = JSONObject.fromObject(result);
+		 writer.print(json);
 		 writer.flush();
 		 writer.close();
 	}

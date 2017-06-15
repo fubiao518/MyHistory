@@ -38,7 +38,6 @@
 	    pagination:true,
 	    toolbar:"#tb",
 	    columns:[[
-	    	{field:'id',title:'办税专员id',width:100},
 			{field:'taxerCode',title:'办税专员工号',width:100},
 			{field:'taxerName',title:'办税专员姓名',width:100},
 			{field:'sex',title:'办税专员性别',width:100},
@@ -64,8 +63,7 @@
 	//重置按钮添加事件
 	$("#setBtn").bind("click",function(){
 		$("#taxerName").textbox("setValue","")
-		$('#dg').datagrid('load',{
-		});
+		$('#dg').datagrid('load');
 	})
 	
 	//为删除添加事件
@@ -73,6 +71,18 @@
 		$.messager.confirm('信息','确定删除？',function(r){
 			if(r){
 				//发送请求
+				$.post("deleteTaxer.do",{"id":id},function(result){
+					if(result.success){
+						$.messager.alert('提示信息',result.msg,'info',function(){
+							$('#dg').datagrid('load');
+						});
+					}else{
+						$.messager.alert('提示信息',result.msg,'info',function(){
+							$('#dg').datagrid('load');
+						});
+						
+					}
+				},"json")
 			}
 		})
 	}	
@@ -83,7 +93,7 @@
 	            width : 750,
 	            height : 600,
 	            title : "修改办税专员",
-	            url : "manage/taxer/editTaxer.jsp"
+	            url : "editTaxer.do?id="+id
 	        });
 
 	}

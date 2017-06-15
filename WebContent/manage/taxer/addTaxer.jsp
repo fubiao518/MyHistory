@@ -1,10 +1,13 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
-%>    
+%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -47,12 +50,8 @@
                     <tr>
                         <td class="kv-label">所属税务机关</td>
                         <td class="kv-content">
-                            <select name="organId" id = "organId" style="width: 210px;height: 34px;" class="easyui-validatebox" validType="select['#organId']" data-options="required:true">
-                                <option value="" >请选择所属税务机关</option> 
-                                <option value="1" >上海国税局</option> 
-                                <option value="2" >北京国税局</option> 
-                                <option value="3" >武汉国税局</option> 
-                                <option value="4" >阿布扎比国税局</option>                         
+                            <select name="organId" id = "organId" style="width: 210px;height: 34px;">
+                                <option value="-1" >请选择所属税务机关</option> 
                             </select>
                         </td>
                         <td class="kv-label">有效标志</td>
@@ -63,7 +62,10 @@
                     <tr>
                         <td class="kv-label">性别</td>
                         <td class="kv-content">
-                            <input type="text" name="sex" placeholder="性别">
+                            <select name="sex" id = "sex" style="width: 210px;height: 34px;">
+                            	<option value="男">男</option>
+                            	<option value="女">女</option>
+                            </select>
                         </td>
                         <td class="kv-label">生日</td>
                         <td class="kv-content">
@@ -77,7 +79,9 @@
                         </td>
                         <td class="kv-label">上级领导</td>
                         <td class="kv-content">
-                            <input type="number" name="mgr" placeholder="上级领导" style="width: 210px;height: 34px;" class="easyui-validatebox" data-options="required:true">
+                            <select name="mgr" id = "mgr" style="width: 210px;height: 34px;">
+                                <option value="-1" >请选择上级领导</option> 
+                            </select>
                         </td>
                     </tr>
                     <tr>
@@ -86,7 +90,7 @@
                             <input type="text" name="recordUserId" placeholder="录入人员">
                         </td>
                         <td class="kv-label">录入日期</td>
-                        <td class="kv-content"><input type="date" name="recordDate" placeholder="录入日期" style="width: 210px;height: 34px;"></td>
+                        <td class="kv-content"><input type="text" name="recordDate" placeholder="录入日期" style="width: 210px;height: 34px;" value="<%=new SimpleDateFormat("y-MM-dd").format(new Date())%>"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -99,20 +103,33 @@
         </div>
     </div>
     <script type="text/javascript">
+    $(function(){
+    	$.post("allTaxOrgan.do",{},function(data){
+    		var organ = $("#organId")
+    		$.each(data,function(index, val){
+    			organ.append("<option value='"+val.id+"'>"+val.organName+"</option>")
+    		})
+    	},"json")
+    	$.post("allTaxer.do",{},function(data){
+    		var mgr = $("#mgr")
+    		$.each(data,function(index, val){
+    			mgr.append("<option value='"+val.id+"'>"+val.taxerName+"</option>")
+    		})
+    	},"json")
+    })
     //下拉框验证
-    $.extend($.fn.validatebox.defaults.rules, {
+/*     $.extend($.fn.validatebox.defaults.rules, {
 
         select: {
            validator: function(value, param) {
-               console.info($(param[0]).find("option:contains('"+value+"')").val());
                return $(param[0]).find("option:contains('"+value+"')").val() != '-1';  
            },
            message: "该输入项是必填项！"
        }
-   });
+   }); */
     //重置按钮
     $("#setBtn").bind("click",function(){
-		$("#addTaxer")[0].reset();
+    	$("#addTaxer").form('reset');
 	})
 	
 	//提交按钮
@@ -121,13 +138,14 @@
 		if(state){
 			$.post("addTaxer.do",$("#addTaxer").serialize(),function(result){
 				if(result.success){
-					$.messager.alert('提示信息','添加成功',function(){
+					$.messager.alert('提示信息',result.msg,'info',function(){
 						
 					});
 				}
 			},"json")
+		} else{
+			$.messager.alert('警告！','请填写完整信息','info');
 		}
-		$.messager.alert('警告！','请填写完整信息','info');
 	})
 	
     </script>

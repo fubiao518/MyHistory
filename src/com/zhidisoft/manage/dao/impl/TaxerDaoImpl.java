@@ -1,24 +1,48 @@
 package com.zhidisoft.manage.dao.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.zhidisoft.manage.dao.BaseDao;
+import com.zhidisoft.manage.entity.TaxOrgan;
 import com.zhidisoft.manage.entity.Taxer;
+import com.zhidisoft.util.BeanUtil;
 import com.zhidisoft.util.DBUtil;
 
 public class TaxerDaoImpl implements BaseDao<Taxer> {
 
 	@Override
 	public List<Taxer> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT * FROM tb_taxer";
+		List<Map<String, String>> list = DBUtil.query(sql);
+		List<Taxer> taxers = new ArrayList<Taxer>();
+		Taxer taxer = null;
+		if (list != null && list.size() > 0) {
+			for(Map<String, String> map:list){
+				taxer = new Taxer();
+				BeanUtil.mapToBean(taxer, map);
+				taxers.add(taxer);
+			}
+		}
+		return taxers;
+		
 	}
 
 	@Override
 	public Taxer getById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT * FROM tb_taxer WHERE id=?";
+		Object[] args = {id};
+		Taxer taxer = null;
+		List<Map<String, String>> list = DBUtil.query(sql, args);
+		Map<String, String> map = new  HashMap<String, String>();
+		if (list != null && list.size() == 1) {
+			map = list.get(0);
+			taxer = new Taxer();
+			BeanUtil.mapToBean(taxer, map);
+		}
+		return taxer;
 	}
 	/**
 	 * 添加操作
