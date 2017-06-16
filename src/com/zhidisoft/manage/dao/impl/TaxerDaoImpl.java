@@ -15,7 +15,7 @@ public class TaxerDaoImpl implements BaseDao<Taxer> {
 
 	@Override
 	public List<Taxer> getAll() {
-		String sql = "SELECT * FROM tb_taxer";
+		String sql = "SELECT tb.*,tto.organName FROM tb_taxer tb LEFT JOIN tb_tax_organ tto ON tb.organId=tto.id";
 		List<Map<String, String>> list = DBUtil.query(sql);
 		List<Taxer> taxers = new ArrayList<Taxer>();
 		Taxer taxer = null;
@@ -67,8 +67,10 @@ public class TaxerDaoImpl implements BaseDao<Taxer> {
 
 	@Override
 	public boolean update(Taxer t) {
-		// TODO Auto-generated method stub
-		return false;
+		String sql = "update tb_taxer set mobile=?,address=?,email=?,organId=?,state=?,mgr=?,recordUserId=? where taxerName=?";
+		Object[] args = {t.getMobile(),t.getAddress(),t.getEmail(),t.getOrganId(),t.getState(),t.getMgr(),t.getRecordUserId(),t.getTaxerName()};
+		
+		return DBUtil.update(sql, args);
 	}
 
 	/**

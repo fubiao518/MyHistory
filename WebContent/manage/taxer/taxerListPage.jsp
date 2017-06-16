@@ -63,7 +63,7 @@
 	//重置按钮添加事件
 	$("#setBtn").bind("click",function(){
 		$("#taxerName").textbox("setValue","")
-		$('#dg').datagrid('load');
+		$('#dg').datagrid('load',{});
 	})
 	
 	//为删除添加事件
@@ -74,11 +74,11 @@
 				$.post("deleteTaxer.do",{"id":id},function(result){
 					if(result.success){
 						$.messager.alert('提示信息',result.msg,'info',function(){
-							$('#dg').datagrid('load');
+							$('#dg').datagrid('load',{});
 						});
 					}else{
 						$.messager.alert('提示信息',result.msg,'info',function(){
-							$('#dg').datagrid('load');
+							$('#dg').datagrid('load',{});
 						});
 						
 					}

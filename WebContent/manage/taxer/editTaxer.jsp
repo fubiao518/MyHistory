@@ -5,6 +5,7 @@
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -26,18 +27,18 @@
         <div class="content">
             <div title="修改办税专员信息" data-options="closable:false" class="basic-info">
                 <div class="column"><span class="current">修改办税专员信息</span></div>
-                <form id="addTaxer">
+                <form id="editTaxer">
                 <table class="kv-table">
                     <tbody>
                     <tr>
                         <td class="kv-label">工号</td>
-                        <td class="kv-content"><input value="${taxer.taxerCode }" type="text" name="taxerCode" placeholder="工号" class="easyui-validatebox" data-options="required:true"></td>
+                        <td class="kv-content"><input value="${taxer.taxerCode }" type="text" readonly="readonly"readonly="readonly" name="taxerCode" placeholder="工号" class="easyui-validatebox" data-options="required:true"></td>
                         <td class="kv-label">办税专员名称</td>
-                        <td class="kv-content"><input value="${taxer.taxerName }" type="text" name="taxerName" placeholder="办税专员名称" class="easyui-validatebox" data-options="required:true"></td>
+                        <td class="kv-content"><input value="${taxer.taxerName }" type="text" readonly="readonly" name="taxerName" placeholder="办税专员名称" class="easyui-validatebox" data-options="required:true"></td>
                     </tr>
                     <tr>
                         <td class="kv-label">地址</td>
-                        <td class="kv-content"><input value="${taxer.address }" type="text" name="address" placeholder="地址"></td>
+                        <td class="kv-content"><input value="${taxer.address }" type="text" name="address" placeholder="地址" ></td>
                         <td class="kv-label">电话</td>
                         <td class="kv-content"><input value="${taxer.mobile }" type="text" name="mobile" placeholder="电话" class="easyui-validatebox" data-options="required:true"></td>
                     </tr>
@@ -57,14 +58,11 @@
                     <tr>
                         <td class="kv-label">性别</td>
                         <td class="kv-content">
-                            <select name="sex" id = "sex" value="${taxer.sex }"style="width: 210px;height: 34px;">
-                            	<option value="男">男</option>
-                            	<option value="女">女</option>
-                            </select>
+                             <input  type="text" name="sex" id="sex" value="${taxer.sex}" readonly="readonly">
                         </td>
                         <td class="kv-label">生日</td>
                         <td class="kv-content">
-                            <input value="${taxer.birthday }" type="date" name="birthday" placeholder="生日" style="width: 210px;height: 34px;">
+                            <input value="${taxer.birthday }" type="date" name="birthday" placeholder="生日" style="width: 210px;height: 34px;" readonly="readonly">
                         </td>
                     </tr>
                     <tr>
@@ -83,7 +81,7 @@
                             <input value="${taxer.recordUserId }" type="text" name="recordUserId" placeholder="录入人员">
                         </td>
                         <td class="kv-label">录入日期</td>
-                        <td class="kv-content"><input type="text" value="${taxer.recordDate }" name="recordDate" placeholder="录入日期" style="width: 210px;height: 34px;" ></td>
+                        <td class="kv-content"><input type="text" value="${taxer.recordDate }" name="recordDate" placeholder="录入日期" style="width: 210px;height: 34px;" readonly="readonly"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -100,15 +98,26 @@
 	$.post("allTaxOrgan.do",{},function(data){
 		var organ = $("#organId")
 		$.each(data,function(index, val){
-			organ.append("<option value='"+val.id+"'>"+val.organName+"</option>")
+			organ.append("<option"+(val.id==${taxer.organId} ? ' selected="selected"':'')+" value='"+val.id+"'>"+val.organName+"</option>")
 		})
 	},"json")
-	$.post("allTaxSour.do",{},function(data){
-		var organ = $("#selectOrgan")
-		$.each(data,function(index, val){
-			organ.append("<option value='"+val.organId+"'>"+val.organName+"</option>")
-		})
-	},"json")
+	//为保存绑定点击事件
+	$("#save").bind("click",function(){
+		var state = $("#editTaxer").form("validate");
+		if(state){
+			$.get("addTaxer.do",$("#editTaxer").serialize(),function(result){
+				if(result.success){
+					$.messager.alert('提示信息',result.msg,'info',function(){
+						parent.$("#topWindow").window("close");
+						top.frames[2].$('#dg').datagrid('load',{});//刷新数据
+					});
+				}
+			},"json")
+		}else{
+			$.messager.alert('警告！','请填写完整信息','info');
+		}
+	})
+	
     </script>
 </body>
 </html>

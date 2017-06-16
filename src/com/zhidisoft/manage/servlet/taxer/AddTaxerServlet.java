@@ -21,7 +21,24 @@ public class AddTaxerServlet extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		doPost(req, resp);
+		resp.setContentType("application/json;charset=UTF-8");
+		//获取到从ajx请求中格式化表单信息的集合数据
+		Map<String, String[]> parameterMap = req.getParameterMap();
+		Taxer taxer = new Taxer();
+		TaxerDaoImpl dao = new TaxerDaoImpl();
+		//将map集合转化为实体类
+		 BeanUtil.mapToBean(taxer, parameterMap);
+		 ResponseResult result = new ResponseResult(false, "添加失败");
+		 //调用操作实现类的添加的方法
+		 if (dao.update(taxer)) {
+			result.setSuccess(true);
+			result.setMsg("添加成功");
+		}
+		 PrintWriter writer = resp.getWriter();
+		 JSONObject json = JSONObject.fromObject(result);
+		 writer.print(json);
+		 writer.flush();
+		 writer.close();
 	}
 
 	@Override

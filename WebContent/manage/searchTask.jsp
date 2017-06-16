@@ -1,16 +1,30 @@
-<!DOCTYPE html> 
-<html lang="en"> 
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-    <base href="/TaxSource/">
-    <meta charset="utf-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1"> 
-    <title>任务查询</title>
-
-<link href="static/css/base.css" rel="stylesheet">
-<link rel="stylesheet" href="static/easyui/uimaker/easyui.css">
-<link rel="stylesheet" type="text/css" href="static/easyui/uimaker/icon.css">
-<link rel="stylesheet" href="static/css/providers1.css">
-</head> 
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>添加办税专员</title>
+<base href="<%=basePath%>">
+    <link rel="stylesheet" type="text/css" href="static/css/base.css" >
+    <link rel="stylesheet" type="text/css" href="static/easyui/uimaker/easyui.css">
+    <link rel="stylesheet" type="text/css" href="static/easyui/uimaker/icon.css">
+    <link rel="stylesheet" type="text/css" href="static/css/edit.css">
+</head>
+<script type="text/javascript" src="static/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="static/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="static/js/calendar.js"></script>
+<script type="text/javascript" src="static/easyui/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript"></script>
 <body>
     <div class="container">
        <table id="dg" style="width:100%;height:529px" data-options="

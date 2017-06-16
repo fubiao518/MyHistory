@@ -1,16 +1,30 @@
-<!DOCTYPE html> 
-<html lang="en"> 
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-    <base href="/TaxSource/">
-    <meta charset="utf-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1"> 
-    <title>纳税人管理</title>
-
-    <link href="static/css/base.css" rel="stylesheet">
-    <link rel="stylesheet" href="static/easyui/uimaker/easyui.css">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>添加办税专员</title>
+<base href="<%=basePath%>">
+    <link rel="stylesheet" type="text/css" href="static/css/base.css" >
+    <link rel="stylesheet" type="text/css" href="static/easyui/uimaker/easyui.css">
     <link rel="stylesheet" type="text/css" href="static/easyui/uimaker/icon.css">
-    <link rel="stylesheet" href="static/css/taxpayer.css">
-</head> 
+    <link rel="stylesheet" type="text/css" href="static/css/edit.css">
+</head>
+<script type="text/javascript" src="static/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="static/easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="static/js/calendar.js"></script>
+<script type="text/javascript" src="static/easyui/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript"></script>
 <body>
     <div class="container">
        <table id="dg" style="width:100%;"  data-options="
@@ -28,15 +42,15 @@
                 <tr>
                     <th field="payerCode">纳税人识别号</th>
                     <th field="payerName">纳税人名称</th>
-                    <th field="taxOrganId">所属税务机关</th>
-                    <th field="industryId">所属行业</th>
+                    <th field="taxOrgan">所属税务机关</th>
+                    <th field="industryName">所属行业</th>
+                    <th field="bizScope">经营范围</th>
                     <th field="legalResent">法人代表</th>
                     <th field="legalResentCode">法人身份证号码</th>
                     <th field="financeName">主管财务</th>
                     <th field="financeCode">财务身份证号码</th>
                     <th field="staffName">办税人员</th>
                     <th field="createTime">录入日期</th>
-                    <th width="200" field="operation">操作</th>
                 </tr>
             </thead>
         </table>
@@ -45,7 +59,6 @@
         纳税人名称: <input class="easyui-textbox" type="text" name="payerName" style="width:166px;height:35px;line-height:35px;"/>
         <a href="javascript:void(0);" id="searchBtn" class="easyui-linkbutton" iconCls="icon-search" data-options="selected:true">查询</a>
         <a href="javascript:void(0);" id="setBtn" class="easyui-linkbutton" iconCls="icon-reload">重置</a>
-        <a href="javascript:void(0);" id="addBtn" class="easyui-linkbutton" iconCls="icon-add">添加纳税人</a>
       </div>
     </div>
     <script type="text/javascript" src="static/jquery/jquery.min.js"></script>
@@ -154,21 +167,19 @@
         })(jQuery);
         function getData(){
             var rows = [];
-            for(var i=1; i<=80; i++){
+            for(var i=1; i<=10; i++){
                 rows.push({
                     payerCode: '106951123456',
                     payerName: '北京智递科技有限公司',
                     taxOrgan: '北京市朝阳区国税分局',
                     industryName: '信息技术',
+                    bizScope :"软件开发、系统集成、技术培训",
                     legalResent: '张天明',
                     legalResentCode:'412221199012029410',
                     financeName: '张晓',
                     financeCode:"110211198012109871",
                     staffName:"侯亮平",
-                    createTime:"2011-12-20 08:09:10",
-                    operation:"<a href='javascript:void(0)' class='modifyBtn' data-payer='1'>修改</a> " +
-                    "<a href=''>删除</a>" +
-                    "<a href='javascript:void(0)' class='addTask' data-payer='1' >新增任务</a>"
+                    createTime:"2011-12-20 08:09:10"
                 });
             }
             return rows;
@@ -178,42 +189,5 @@
             $('#dg').datagrid({data:getData()}).datagrid('clientPaging');
         });        
     </script>
-    <script type="text/javascript">
-        //为搜索按钮添加事件处理函数
-        //为重置按钮添加事件处理函数
-        //为添加纳税人添加事件处理函数
-       $(function(){
-           $("#addBtn").on("click",function(e){
-              openTopWindow({
-                  width : 750,
-                  height : 600,
-                  title : "新增纳税人",
-                  url : "manage/addTaxpayer.html"
-              });
-           });
-
-           /**
-            *打开在父窗口中打开window
-            */
-           function openTopWindow(options){
-               options = !options ? {} :options;
-               options.width = !options.width ? 500 : options.width;
-               options.height = !options.height ? 400 : options.height;
-               options.url = !options.url ? "404.html" : options.url;
-               options.title = !options.title ? "" : options.title;
-
-               parent.$("#topWindow").window({
-                   title : options.title,
-                   width: options.width,
-                   height: options.height,
-                   content : "<iframe scrolling='no' frameborder='0' border='0' height='100%' width='100%' src='"+options.url+"'></iframe>",
-                   modal:true,
-                   resizable:false,
-                   collapsible:false
-               });
-           }
-
-       });
-    </script>
-</body> 
+</body>
 </html>

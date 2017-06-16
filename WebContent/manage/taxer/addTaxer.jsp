@@ -7,15 +7,13 @@
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>    
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>添加办税专员</title>
-</head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
 <base href="<%=basePath%>">
     <link rel="stylesheet" type="text/css" href="static/css/base.css" >
     <link rel="stylesheet" type="text/css" href="static/easyui/uimaker/easyui.css">
@@ -139,7 +137,7 @@
 			$.post("addTaxer.do",$("#addTaxer").serialize(),function(result){
 				if(result.success){
 					$.messager.alert('提示信息',result.msg,'info',function(){
-						
+						parent.$("#topWindow").window("close");
 					});
 				}
 			},"json")

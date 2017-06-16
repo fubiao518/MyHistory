@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-    <base href="/TaxSource/">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>添加纳税人</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>添加办税专员</title>
+<base href="<%=basePath%>">
     <link rel="stylesheet" type="text/css" href="static/css/base.css" >
     <link rel="stylesheet" type="text/css" href="static/easyui/uimaker/easyui.css">
     <link rel="stylesheet" type="text/css" href="static/easyui/uimaker/icon.css">
@@ -13,12 +23,14 @@
 <script type="text/javascript" src="static/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="static/easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="static/js/calendar.js"></script>
+<script type="text/javascript" src="static/easyui/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript"></script>
 <body>
     <div class="container">
         <div class="content">
             <div title="纳税人信息" data-options="closable:false" class="basic-info">
                 <div class="column"><span class="current">添加纳税人信息</span></div>
+                <form id="addTaxpayer">
                 <table class="kv-table">
                     <tbody>
                     <tr>
@@ -95,18 +107,17 @@
                     </tr>
                     </tbody>
                 </table>
+                </form>
             </div>
             <div class="btn-selection">
                 <a href="javascript:void(0);" class="easyui-linkbutton save-btn" data-options="selected:true">保存</a>
-                <a href="javascript:void(0);" class="easyui-linkbutton reset-btn" data-options="selected:true">重置</a>
+                <a href="javascript:void(0);" class="easyui-linkbutton reset-btn" data-options="selected:true" id="setBtn">重置</a>
             </div>
         </div>
     </div>
-</body>
 <script type="text/javascript">
 	$(function(){
-	/**
-		ajax请求获取外键值
+		//ajax请求获取外键值
 		$.post("getIndustry.do",{},function(data){
 			var industry = $("#selectIndustry")
 			$.each(data,function(index, val){
@@ -119,12 +130,14 @@
 				organ.append("<option value='"+val.organId+"'>"+val.organName+"</option>")
 			})
 		},"json")
-	**/
+	})
 	
-	
-	
+	//为重置按钮添加事件
+	$("#setBtn").bind("click",function(){
+    	$("#addTaxpayer").form('reset');
 	})
 </script>
+</body>
 </html>
 
 
