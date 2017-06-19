@@ -10,7 +10,7 @@ import com.zhidisoft.manage.entity.TaxSource;
 import com.zhidisoft.util.BeanUtil;
 import com.zhidisoft.util.DBUtil;
 
-public class TaxSourceDaoImpl implements BaseDao<TaxSource>{
+public class TaxSourceDaoImpl implements BaseDao<TaxSource> {
 
 	@Override
 	public List<TaxSource> getAll() {
@@ -19,14 +19,14 @@ public class TaxSourceDaoImpl implements BaseDao<TaxSource>{
 		List<TaxSource> sources = new ArrayList<TaxSource>();
 		TaxSource source = null;
 		if (list != null && list.size() > 0) {
-			for(Map<String, String> map:list){
+			for (Map<String, String> map : list) {
 				source = new TaxSource();
 				BeanUtil.mapToBean(source, map);
 				sources.add(source);
 			}
 		}
 		return sources;
-		
+
 	}
 
 	@Override

@@ -30,8 +30,8 @@
 		<table id="dg"></table>
 	</div>
       <div id="tb" style="padding:0 30px;">
-        纳税人识别号: <input class="easyui-textbox" type="text" name="payerCode" style="width:166px;height:35px;line-height:35px;"/>
-        纳税人名称: <input class="easyui-textbox" type="text" name="payerName" style="width:166px;height:35px;line-height:35px;"/>
+        纳税人识别号: <input class="easyui-textbox" type="text" name="payerCode" id="payerCode" style="width:166px;height:35px;line-height:35px;"/>
+        纳税人名称: <input class="easyui-textbox" type="text" name="payerName" id="payerName" style="width:166px;height:35px;line-height:35px;"/>
         <a href="javascript:void(0);" id="searchBtn" class="easyui-linkbutton" iconCls="icon-search" data-options="selected:true">查询</a>
         <a href="javascript:void(0);" id="setBtn" class="easyui-linkbutton" iconCls="icon-reload">重置</a>
         <a href="javascript:void(0);" id="addBtn" class="easyui-linkbutton" iconCls="icon-add">添加纳税人</a>
@@ -40,28 +40,44 @@
 
     <script type="text/javascript">
 	$('#dg').datagrid({
-	    url:"taxerList.do",
+	    url:"taxPayerList.do",
 	    rownumbers:true,
 	    loadMsg:"数据加载中...",
 	    pagination:true,
 	    toolbar:"#tb",
 	    columns:[[
-			{field:'taxerCode',title:'办税专员工号',width:100},
-			{field:'taxerName',title:'办税专员姓名',width:100},
-			{field:'sex',title:'办税专员性别',width:100},
-			{field:'mobile',title:'办税专员手机号',width:100},
-			{field:'birthday',title:'办税专员生日',width:100},
-			{field:'address',title:'办税专员地址',width:100},
+			{field:'payerCode',title:'纳税人识别号',width:100},
+			{field:'payerName',title:'纳税人名称',width:100},
 			{field:'organName',title:'所属税务机关',width:100},
+			{field:'industryName',title:'所属行业',width:100},
+			{field:'legalPerson',title:'法人代表',width:100},
+			{field:'legalIdCard',title:'法人身份证号码',width:100},
+			{field:'finaceName',title:'主管财务',width:100},
+			{field:'finaceIdCard',title:'财务身份证号码',width:100},
+			{field:'taxerName',title:'办税人员',width:100},
+			{field:'recordDate',title:'录入日期',width:100},
 			{field:'operation',title:'操作',width:100,
 				formatter: function(value,row,index){
-					return"<a href='javascript:void(0);' onclick='edit("+row.id+")'>修改</a>|<a href='javascript:void(0);' onclick='deleteTaxer("+row.id+")'>删除</a>";
+					return"<a href='javascript:void(0);' onclick='edit("+row.id+")'>修改</a>|<a href='javascript:void(0);' onclick='deletePayer("+row.id+")'>删除</a>";
 				}
 			}
 	    ]]
 	});
         //为搜索按钮添加事件处理函数
+    $("#searchBtn").bind("click",function(){
+		var payerName = $("#payerName").val();
+		var payerCode = $("#payerCode").val();
+		$('#dg').datagrid('load',{
+			payerName:payerName,
+			payerCode:payerCode
+		});
+	})
         //为重置按钮添加事件处理函数
+    $("#setBtn").bind("click",function(){
+		$("#payerName").textbox("setValue","");
+		$("#payerCode").textbox("setValue","");
+		$('#dg').datagrid('load',{});
+	})
         //为添加纳税人添加事件处理函数
        $(function(){
            $("#addBtn").on("click",function(e){
@@ -73,6 +89,38 @@
               });
            });
 
+       });
+       	//为删除添加事件
+       	 var deletePayer = function (id) {
+       		$.messager.confirm('信息','确定删除？',function(r){
+       			if(r){
+       				//发送请求
+       				$.post("deletePayer.do",{"id":id},function(result){
+       					if(result.success){
+       						$.messager.alert('提示信息',result.msg,'info',function(){
+       							$('#dg').datagrid('load',{});
+       						});
+       					}else{
+       						$.messager.alert('提示信息',result.msg,'info',function(){
+       							$('#dg').datagrid('load',{});
+       						});
+       						
+       					}
+       				},"json")
+       			}
+       		})
+       	} 
+       //为修改添加事件
+     	var edit = function(id) {
+     	    
+     	        openTopWindow({
+     	            width : 750,
+     	            height : 600,
+     	            title : "修改纳税人",
+     	            url : "editPayer.do?id="+id
+     	        });
+
+     	}
            /**
             *打开在父窗口中打开window
             */
@@ -93,8 +141,6 @@
                    collapsible:false
                });
            }
-
-       });
     </script>
 </body> 
 </html>

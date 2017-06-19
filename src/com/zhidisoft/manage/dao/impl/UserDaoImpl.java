@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.zhidisoft.manage.dao.BaseDao;
+import com.zhidisoft.manage.entity.TaxSource;
 import com.zhidisoft.manage.entity.User;
 import com.zhidisoft.util.BeanUtil;
 import com.zhidisoft.util.DBUtil;
@@ -33,8 +34,19 @@ public class UserDaoImpl implements BaseDao<User>{
 	}
 	@Override
 	public List<User> getAll() {
+		String sql = "SELECT * FROM tb_user";
+		List<Map<String, String>> list = DBUtil.query(sql);
+		List<User> users = new ArrayList<User>();
+		User user = null;
+		if (list != null && list.size() > 0) {
+			for (Map<String, String> map : list) {
+				user = new User();
+				BeanUtil.mapToBean(user, map);
+				users.add(user);
+			}
+		}
 		
-		return null;
+		return users;
 	}
 
 	@Override
